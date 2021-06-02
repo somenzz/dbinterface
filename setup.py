@@ -12,8 +12,8 @@ except ImportError:
     )
 
 
-readme = Path("README.md")
-license = Path("LICENSE")
+README = Path("README.md")
+LICENSE = Path("LICENSE")
 
 
 # Read the version without importing the package
@@ -28,7 +28,6 @@ KEYWORDS = "python database client interface"
 AUTHOR = "somenzz"
 AUTHOR_EMAIL = "somenzz@163.com"
 URL = "https://github.com/somenzz/dbinterface"
-LICENSE = license.read_text()
 PACKAGES = find_packages(exclude=["tests", "tests.*"])
 
 INSTALL_REQUIRES = [
@@ -63,13 +62,13 @@ params = {
     "author": AUTHOR,
     "author_email": AUTHOR_EMAIL,
     "url": URL,
-    "license": LICENSE,
+    "license": LICENSE.read_text(),
     "packages": PACKAGES,
     "install_requires": INSTALL_REQUIRES,
     "tests_require": TESTS_REQUIRE,
     "test_suite": TEST_SUITE,
     "classifiers": CLASSIFIERS,
-    "long_description": readme.read_text(),
+    "long_description": README.read_text(),
 }
 
 if __name__ == "__main__":
