@@ -1,5 +1,9 @@
 # dbinterface
 
+[![Build Status](https://travis-ci.com/somenzz/dbinterface.svg?branch=master)](https://travis-ci.com/somenzz/dbinterface)
+[![Coverage Status](https://coveralls.io/repos/github/somenzz/dbinterface/badge.svg)](https://coveralls.io/github/somenzz/dbinterface)
+
+
 Python 连接数据库，执行读写操作的通用接口。
 
 ## 安装
