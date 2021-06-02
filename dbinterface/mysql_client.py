@@ -41,13 +41,13 @@ class MysqlClient(DataBaseInterface):
                 yield tuple(row.values())
                 row = cursor.fetchone()
 
-    def fetch(self, sql, params=()):  # pymysql.execute(sql)
-        with self.connection.cursor() as cursor:
-            cursor.execute(sql, params)
-            row = cursor.fetchone()
-            while row:
-                yield tuple(row.values())
-                row = cursor.fetchone()
+    # def fetch(self, sql, params=()):  # pymysql.execute(sql)
+    #     with self.connection.cursor() as cursor:
+    #         cursor.execute(sql, params)
+    #         row = cursor.fetchone()
+    #         while row:
+    #             yield tuple(row.values())
+    #             row = cursor.fetchone()
 
     def read_map(self, sql, params=()):  # pymysql.execute(sql)
         with self.connection.cursor() as cursor:
@@ -64,7 +64,3 @@ class MysqlClient(DataBaseInterface):
 
     def write_many(self, sql: str, params: tuple) -> tuple:
         pass
-
-
-if __name__ == "__main__":
-    cl = MysqlClient("1", "2", "3", "4", "5")

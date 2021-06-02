@@ -25,13 +25,13 @@ class Db2Client(DataBaseInterface):
         )
         self.dbi_connection = ibm_db_dbi.Connection(self.connection)
 
-    def set_current_schema(self, schema):
-        """
-        https://github.com/ibmdb/python-ibmdb/wiki/APIs#ibm_dbset_option
-        """
-        # ibm_db.set_option(self.connection, {ibm_db.SQL_ATTR_CURRENT_SCHEMA : schema},1)
-        self.dbi_connection.set_current_schema(schema)
-        print("current schema is ", self.dbi_connection.get_current_schema())
+    # def set_current_schema(self, schema):
+    #     """
+    #     https://github.com/ibmdb/python-ibmdb/wiki/APIs#ibm_dbset_option
+    #     """
+    #     # ibm_db.set_option(self.connection, {ibm_db.SQL_ATTR_CURRENT_SCHEMA : schema},1)
+    #     self.dbi_connection.set_current_schema(schema)
+    #     print("current schema is ", self.dbi_connection.get_current_schema())
 
     def close(self):
         ibm_db.close(self.connection)
@@ -50,20 +50,20 @@ class Db2Client(DataBaseInterface):
             yield (row)
             row = ibm_db.fetch_tuple(stmt)
 
-    def fetch(self, sql, params=None):
-        cur = self.dbi_connection.cursor()
-        cur.execute(sql, params)
-        row = cur.fetchone()
-        while row:
-            yield row
-            row = cur.fetchone()
-        cur.close()
-
-    def fetch_one(self, sql, params=None):
-        cur = self.dbi_connection.cursor()
-        cur.execute(sql, params)
-        row = cur.fetchone()
-        yield row
+    # def fetch(self, sql, params=None):
+    #     cur = self.dbi_connection.cursor()
+    #     cur.execute(sql, params)
+    #     row = cur.fetchone()
+    #     while row:
+    #         yield row
+    #         row = cur.fetchone()
+    #     cur.close()
+    #
+    # def fetch_one(self, sql, params=None):
+    #     cur = self.dbi_connection.cursor()
+    #     cur.execute(sql, params)
+    #     row = cur.fetchone()
+    #     yield row
 
     def read_map(self, sql, params=()):
         """
@@ -101,77 +101,77 @@ class Db2Client(DataBaseInterface):
         # print(f"inserted {row_count} rows")
         # print(ibm_db.stmt_errormsg())
 
-    def get_table_info(self, schema, tabname):
-        """
-        返回：
-            列信息
-            主键信息
-            外键信息
-            索引信息
-        """
-        tables_info = self.dbi_connection.tables(schema_name=schema, table_name=tabname)
-        assert tables_info
-
-        tables_info = tables_info[0]
-        columns_info = self.dbi_connection.columns(
-            schema_name=schema, table_name=tabname
-        )
-
-        ##print("列信息")
-        # print(columns_info)
-        cols = []
-        for col in columns_info:
-            cols.append(
-                [
-                    col["COLUMN_NAME"],
-                    col["REMARKS"],
-                    col["TYPE_NAME"],
-                    col["COLUMN_SIZE"],
-                    col["DECIMAL_DIGITS"],
-                    col["IS_NULLABLE"],
-                ]
-            )
-        ###print(cols)
-        ###print("主键信息")
-        primary_keys_info = self.dbi_connection.primary_keys(
-            schema_name=schema, table_name=tabname
-        )
-        pks = {}
-        for pk in primary_keys_info:
-            if pk["PK_NAME"] in pks:
-                pks[pk["PK_NAME"]] += "," + pk["COLUMN_NAME"]
-            else:
-                pks[pk["PK_NAME"]] = pk["COLUMN_NAME"]
-        ##print(pks)
-        ##print("外键信息")
-        fks = {}
-        foreign_keys_info = self.dbi_connection.foreign_keys(
-            schema_name=schema, table_name=tabname
-        )
-        # [{'PKTABLE_CAT': None, 'PKTABLE_SCHEM': 'EDW', 'PKTABLE_NAME': 'ADVISE_INSTANCE', 'PKCOLUMN_NAME': 'START_TIME', 'FKTABLE_CAT': None, 'FKTABLE_SCHEM': 'EDW', 'FKTABLE_NAME': 'ADVISE_MQT', 'FKCOLUMN_NAME': 'RUN_ID', 'KEY_SEQ': 1, 'UPDATE_RULE': 3, 'DELETE_RULE': 0, 'FK_NAME': 'SQL170306104743460', 'PK_NAME': 'SQL170306104743210', 'DEFERRABILITY': 7}]
-        for fk in foreign_keys_info:
-            if fk["FK_NAME"] in fks:
-                fks[fk["FK_NAME"]][0].append(fk["FKCOLUMN_NAME"])
-                fks[fk["FK_NAME"]][2].append(fk["PKCOLUMN_NAME"])
-            else:
-                fks[fk["FK_NAME"]] = [
-                    [fk["FKCOLUMN_NAME"]],
-                    [fk["PKTABLE_NAME"]],
-                    [fk["PKCOLUMN_NAME"]],
-                ]
-        ##print(fks)
-        ##print("索引信息")
-        ids = {}
-        indexes_info = self.dbi_connection.indexes(
-            schema_name=schema, unique=True, table_name=tabname
-        )
-        for index in indexes_info:
-            if index["INDEX_NAME"] in ids:
-                ids[index["INDEX_NAME"]] += "," + index["COLUMN_NAME"]
-            else:
-                ids[index["INDEX_NAME"]] = index["COLUMN_NAME"]
-        # print(ids)
-        return tables_info, cols, pks, fks, ids
+    # def get_table_info(self, schema, tabname):
+    #     """
+    #     返回：
+    #         列信息
+    #         主键信息
+    #         外键信息
+    #         索引信息
+    #     """
+    #     tables_info = self.dbi_connection.tables(schema_name=schema, table_name=tabname)
+    #     assert tables_info
+    #
+    #     tables_info = tables_info[0]
+    #     columns_info = self.dbi_connection.columns(
+    #         schema_name=schema, table_name=tabname
+    #     )
+    #
+    #     ##print("列信息")
+    #     # print(columns_info)
+    #     cols = []
+    #     for col in columns_info:
+    #         cols.append(
+    #             [
+    #                 col["COLUMN_NAME"],
+    #                 col["REMARKS"],
+    #                 col["TYPE_NAME"],
+    #                 col["COLUMN_SIZE"],
+    #                 col["DECIMAL_DIGITS"],
+    #                 col["IS_NULLABLE"],
+    #             ]
+    #         )
+    #     ###print(cols)
+    #     ###print("主键信息")
+    #     primary_keys_info = self.dbi_connection.primary_keys(
+    #         schema_name=schema, table_name=tabname
+    #     )
+    #     pks = {}
+    #     for pk in primary_keys_info:
+    #         if pk["PK_NAME"] in pks:
+    #             pks[pk["PK_NAME"]] += "," + pk["COLUMN_NAME"]
+    #         else:
+    #             pks[pk["PK_NAME"]] = pk["COLUMN_NAME"]
+    #     ##print(pks)
+    #     ##print("外键信息")
+    #     fks = {}
+    #     foreign_keys_info = self.dbi_connection.foreign_keys(
+    #         schema_name=schema, table_name=tabname
+    #     )
+    #     # [{'PKTABLE_CAT': None, 'PKTABLE_SCHEM': 'EDW', 'PKTABLE_NAME': 'ADVISE_INSTANCE', 'PKCOLUMN_NAME': 'START_TIME', 'FKTABLE_CAT': None, 'FKTABLE_SCHEM': 'EDW', 'FKTABLE_NAME': 'ADVISE_MQT', 'FKCOLUMN_NAME': 'RUN_ID', 'KEY_SEQ': 1, 'UPDATE_RULE': 3, 'DELETE_RULE': 0, 'FK_NAME': 'SQL170306104743460', 'PK_NAME': 'SQL170306104743210', 'DEFERRABILITY': 7}]
+    #     for fk in foreign_keys_info:
+    #         if fk["FK_NAME"] in fks:
+    #             fks[fk["FK_NAME"]][0].append(fk["FKCOLUMN_NAME"])
+    #             fks[fk["FK_NAME"]][2].append(fk["PKCOLUMN_NAME"])
+    #         else:
+    #             fks[fk["FK_NAME"]] = [
+    #                 [fk["FKCOLUMN_NAME"]],
+    #                 [fk["PKTABLE_NAME"]],
+    #                 [fk["PKCOLUMN_NAME"]],
+    #             ]
+    #     ##print(fks)
+    #     ##print("索引信息")
+    #     ids = {}
+    #     indexes_info = self.dbi_connection.indexes(
+    #         schema_name=schema, unique=True, table_name=tabname
+    #     )
+    #     for index in indexes_info:
+    #         if index["INDEX_NAME"] in ids:
+    #             ids[index["INDEX_NAME"]] += "," + index["COLUMN_NAME"]
+    #         else:
+    #             ids[index["INDEX_NAME"]] = index["COLUMN_NAME"]
+    #     # print(ids)
+    #     return tables_info, cols, pks, fks, ids
 
     def get_tables(self, schema_name="EDW"):
         """
@@ -203,14 +203,14 @@ class Db2Client(DataBaseInterface):
                     )
         return tabs
 
-    def get_table_names(self, schema_name=None):
-        """
-        'TABLE_SCHEM': 'SYSCAT', 'TABLE_NAME': 'VARIABLEAUTH', 'TABLE_TYPE': 'VIEW', 'REMARKS': None
-        """
-        table_type = ""
-        tables_info = self.dbi_connection.tables(schema_name=schema_name)
-        ###print(tables_info)
-        tabs = []
-        for table in tables_info:
-            tabs.append(f"{table['TABLE_SCHEM']}.{table['TABLE_NAME']}")
-        return tabs
+    # def get_table_names(self, schema_name=None):
+    #     """
+    #     'TABLE_SCHEM': 'SYSCAT', 'TABLE_NAME': 'VARIABLEAUTH', 'TABLE_TYPE': 'VIEW', 'REMARKS': None
+    #     """
+    #     table_type = ""
+    #     tables_info = self.dbi_connection.tables(schema_name=schema_name)
+    #     ###print(tables_info)
+    #     tabs = []
+    #     for table in tables_info:
+    #         tabs.append(f"{table['TABLE_SCHEM']}.{table['TABLE_NAME']}")
+    #     return tabs

@@ -1,7 +1,7 @@
 import re
 
 
-def isInvalidSQL(sql) -> bool:
+def is_unsafe_sql(sql) -> bool:
     if sql.replace(" ", "") == "":
         return False
     result = re.findall(

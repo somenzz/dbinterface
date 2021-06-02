@@ -77,7 +77,7 @@ params = {
     "author": AUTHOR,
     "author_email": AUTHOR_EMAIL,
     "url": URL,
-    "license": LICENSE.read_text(),
+    "license": LICENSE,
     "packages": PACKAGES,
     "install_requires": INSTALL_REQUIRES,
     "tests_require": TESTS_REQUIRE,
