@@ -11,9 +11,9 @@ from .database_interface import DataBaseInterface
 
 
 class PostgresClient(DataBaseInterface):
-    '''
-     postgresql client
-    '''
+    """
+    postgresql client
+    """
 
     def init(self, host, port, user, pwd, database, **kwargs):
 
@@ -24,7 +24,6 @@ class PostgresClient(DataBaseInterface):
         self.port = port
         self.connection = None
         self.cursor_count = 0
-
 
     def connect(self):
         self.connection = psycopg2.connect(
@@ -151,19 +150,19 @@ class PostgresClient(DataBaseInterface):
         pass
 
     def copy_to_file(self, query, file_name, encoding="utf8", delimiter="\x02"):
-    
-        copy_sql = f'''COPY (
+
+        copy_sql = f"""COPY (
 {query}
-) TO '{file_name}' WITH(encoding '{encoding}', delimiter '{delimiter}', null '', format 'text')'''
-        print(f'''copy_sql =======begin========
+) TO '{file_name}' WITH(encoding '{encoding}', delimiter '{delimiter}', null '', format 'text')"""
+        print(
+            f"""copy_sql =======begin========
 {copy_sql}
-copy_sql =======end========''')
+copy_sql =======end========"""
+        )
         with self.connection.cursor() as cur:
-            cur.copy_expert(
-                copy_sql,
-                sys.stdout
-            )
+            cur.copy_expert(copy_sql, sys.stdout)
             return cur.rowcount
+
     def copy_from_memory(self, values, schema, tabName, columns=None):
         # self.connection.set_isolation_level(psycopg2.extensions.ISOLATION_LEVEL_AUTOCOMMIT)
         """
@@ -274,7 +273,13 @@ copy_sql =======end========''')
 if __name__ == "__main__":
     import time
 
-    pg = PostgresClient(database = "postgres",user="postgres", password="121113", host="localhost", port="5432")
+    pg = PostgresClient(
+        database="postgres",
+        user="postgres",
+        password="121113",
+        host="localhost",
+        port="5432",
+    )
     pg.connect()
     start = time.time()
     x = pg.copy_to_file(

@@ -6,3 +6,7 @@ build/
 *.egg-info
 *.pytest_cache
 *.idea
+.coveralls.yml
+.coverage
+.eggs/
+.tox/

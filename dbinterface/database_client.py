@@ -1,14 +1,15 @@
-
 # from .db2_client import Db2Client
 from .mysql_client import MysqlClient
 from .postgres_client import PostgresClient
 
+
 class DataBaseClientFactory:
-    '''
+    """
     dbtype: mysql,db2,postgres
-    '''
+    """
+
     @classmethod
-    def create(cls,dbtype, host, port, user, pwd, database, **kwargs):
+    def create(cls, dbtype, host, port, user, pwd, database, **kwargs):
         _client = None
         if dbtype == "mysql":
             _client = MysqlClient()
@@ -25,4 +26,3 @@ class DataBaseClientFactory:
         _client.init(host, port, user, pwd, database, **kwargs)
         _client.connect()
         return _client
-    

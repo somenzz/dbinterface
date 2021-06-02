@@ -4,13 +4,12 @@ import pymysql
 
 
 class MysqlClient(DataBaseInterface):
-
     def init(self, host, port, user, pwd, database, **kwargs):
         self.host = host
         self.user = user
         self.password = pwd
         self.port = port
-        self.charset = "utf8" if not kwargs else kwargs.get("charset","utf8")
+        self.charset = "utf8" if not kwargs else kwargs.get("charset", "utf8")
         self.database = database
         self.connection = None
 
@@ -22,7 +21,7 @@ class MysqlClient(DataBaseInterface):
             database=self.database,
             password=self.password,
             charset=self.charset,
-            cursorclass = pymysql.cursors.SSDictCursor
+            cursorclass=pymysql.cursors.SSDictCursor,
         )
 
     def close(self):
@@ -30,7 +29,7 @@ class MysqlClient(DataBaseInterface):
 
     def is_active(self):
         pass
-    
+
     def get_tables(self):
         pass
 
@@ -41,7 +40,7 @@ class MysqlClient(DataBaseInterface):
             while row:
                 yield tuple(row.values())
                 row = cursor.fetchone()
-    
+
     def fetch(self, sql, params=()):  # pymysql.execute(sql)
         with self.connection.cursor() as cursor:
             cursor.execute(sql, params)
@@ -62,11 +61,10 @@ class MysqlClient(DataBaseInterface):
         with self.connection.cursor() as cursor:
             cursor.execute(sql, params)
             self.connection.commit()
-        
 
     def write_many(self, sql: str, params: tuple) -> tuple:
         pass
 
 
-if __name__ == '__main__':
-    cl = MysqlClient("1","2","3","4","5")
+if __name__ == "__main__":
+    cl = MysqlClient("1", "2", "3", "4", "5")

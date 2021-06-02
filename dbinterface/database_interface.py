@@ -2,9 +2,8 @@ from abc import ABCMeta, abstractmethod
 
 
 class DataBaseInterface(metaclass=ABCMeta):
-
     @abstractmethod
-    def init(self, host,port,user,pwd,database,**kwargs):
+    def init(self, host, port, user, pwd, database, **kwargs):
         pass
 
     @abstractmethod
@@ -20,18 +19,17 @@ class DataBaseInterface(metaclass=ABCMeta):
         pass
 
     @abstractmethod
-    def read(self, sql:str,params: tuple) -> tuple:
+    def read(self, sql: str, params: tuple) -> tuple:
         pass
 
     @abstractmethod
-    def read_map(self, sql:str,params: tuple) -> dict:
-        pass
-
-
-    @abstractmethod
-    def write(self, sql:str,params: tuple) -> tuple:
+    def read_map(self, sql: str, params: tuple) -> dict:
         pass
 
     @abstractmethod
-    def write_many(self, sql:str,params: tuple) -> tuple:
+    def write(self, sql: str, params: tuple) -> tuple:
+        pass
+
+    @abstractmethod
+    def write_many(self, sql: str, params: tuple) -> tuple:
         pass

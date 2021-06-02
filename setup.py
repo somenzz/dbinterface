@@ -2,12 +2,14 @@
 
 
 from pathlib import Path
+
 try:
     from setuptools import setup
     from setuptools import find_packages
 except ImportError:
-    raise ImportError("Could not import \"setuptools\"."
-                      "Please install the setuptools package.")
+    raise ImportError(
+        'Could not import "setuptools".' "Please install the setuptools package."
+    )
 
 
 readme = Path("README.md")
@@ -19,52 +21,55 @@ license = Path("LICENSE")
 # installed yet)
 version = "0.2"
 
-NAME = 'dbinterface'
+NAME = "dbinterface"
 VERSION = version
-DESCRIPTION = ''
-KEYWORDS = 'python database client interface'
-AUTHOR = 'somenzz'
-AUTHOR_EMAIL = 'somenzz@163.com'
-URL = 'https://github.com/somenzz/dbinterface'
+DESCRIPTION = ""
+KEYWORDS = "python database client interface"
+AUTHOR = "somenzz"
+AUTHOR_EMAIL = "somenzz@163.com"
+URL = "https://github.com/somenzz/dbinterface"
 LICENSE = license.read_text()
-PACKAGES = find_packages(exclude=['tests', 'tests.*'])
+PACKAGES = find_packages(exclude=["tests", "tests.*"])
 
-INSTALL_REQUIRES = []
-TEST_SUITE = 'tests'
+INSTALL_REQUIRES = [
+    "pymysql",
+    "psycopg2-binary",
+]
+TEST_SUITE = "tests"
 TESTS_REQUIRE = []
 
 CLASSIFIERS = [
-    'Development Status :: 3 - Alpha',
-    'Intended Audience :: Developers',
-    'License :: OSI Approved :: MIT License',
-    'Operating System :: OS Independent',
-    'Programming Language :: Python',
-    'Programming Language :: Python :: 2.7',
-    'Programming Language :: Python :: 3.6',
-    'Topic :: Software Development',
-    'Topic :: Software Development :: Libraries :: Python Modules',
-    'Topic :: Utilities',
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 2.7",
+    "Programming Language :: Python :: 3.6",
+    "Topic :: Software Development",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Utilities",
 ]
 
 LONG_DESCRIPTION = readme
 
 
 params = {
-    'name':             NAME,
-    'version':          VERSION,
-    'description':      DESCRIPTION,
-    'keywords':         KEYWORDS,
-    'author':           AUTHOR,
-    'author_email':     AUTHOR_EMAIL,
-    'url':              URL,
-    'license':          LICENSE,
-    'packages':         PACKAGES,
-    'install_requires': INSTALL_REQUIRES,
-    'tests_require':    TESTS_REQUIRE,
-    'test_suite':       TEST_SUITE,
-    'classifiers':      CLASSIFIERS,
-    'long_description': readme.read_text()
+    "name": NAME,
+    "version": VERSION,
+    "description": DESCRIPTION,
+    "keywords": KEYWORDS,
+    "author": AUTHOR,
+    "author_email": AUTHOR_EMAIL,
+    "url": URL,
+    "license": LICENSE,
+    "packages": PACKAGES,
+    "install_requires": INSTALL_REQUIRES,
+    "tests_require": TESTS_REQUIRE,
+    "test_suite": TEST_SUITE,
+    "classifiers": CLASSIFIERS,
+    "long_description": readme.read_text(),
 }
 
-if __name__ == '__main__':
-    setup(**params,long_description_content_type='text/markdown')
+if __name__ == "__main__":
+    setup(**params, long_description_content_type="text/markdown")
