@@ -22,7 +22,7 @@ class Test(unittest.TestCase):
 
     def test_mysql(self):
 
-        pg = DataBaseClientFactory.create(
+        client = DataBaseClientFactory.create(
             dbtype="mysql",
             host="localhost",
             port=3306,
@@ -30,7 +30,7 @@ class Test(unittest.TestCase):
             pwd="aaron",
             database="information_schema",
         )
-        x = pg.read("select current_date()")
+        x = client.read("select current_date()")
         result = list(x)
         today = datetime.datetime.today()
         self.assertEqual(result[0][0], today.date())
