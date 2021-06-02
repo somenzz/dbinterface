@@ -12,8 +12,8 @@ except ImportError:
     )
 
 
-README = Path("README.md")
-LICENSE = Path("LICENSE")
+README = Path("./README.md")
+LICENSE = Path("./LICENSE")
 
 
 # Read the version without importing the package
