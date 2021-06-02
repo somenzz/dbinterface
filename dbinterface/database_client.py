@@ -1,4 +1,4 @@
-# from .db2_client import Db2Client
+from .db2_client import Db2Client
 from .mysql_client import MysqlClient
 from .postgres_client import PostgresClient
 
@@ -15,8 +15,8 @@ class DataBaseClientFactory:
             _client = MysqlClient()
 
         elif dbtype == "db2":
-            # _client = Db2Client()
-            pass
+            _client = Db2Client()
+
         elif dbtype == "postgres":
             _client = PostgresClient()
 

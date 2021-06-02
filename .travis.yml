@@ -1,0 +1,18 @@
+language: python
+python:
+  - "3.7"
+  - "3.8"
+  - "3.9"
+
+# command to install dependencies
+install:
+  - pip install tox
+# command to run tests
+script:
+  - tox
+notifications:
+  email:
+    recipients:
+      - somenzz@163.com
+    on_success: change
+    on_failure: always

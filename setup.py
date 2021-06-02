@@ -34,6 +34,7 @@ PACKAGES = find_packages(exclude=["tests", "tests.*"])
 INSTALL_REQUIRES = [
     "pymysql",
     "psycopg2-binary",
+    "ibm-db==3.0.4"
 ]
 TEST_SUITE = "tests"
 TESTS_REQUIRE = []

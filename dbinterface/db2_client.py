@@ -11,7 +11,7 @@ class Db2Client(DataBaseInterface):
         self.database = database
         self.hostname = host
         self.port = port
-        self.uid = pwd
+        self.uid = user
         self.pwd = pwd
         self.protocol = "TCPIP" if not kwargs else kwargs.get("protocol", "utf8")
         self.connection = None
