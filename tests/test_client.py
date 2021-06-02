@@ -34,8 +34,7 @@ class TestCase:
         # result = list(x)
         # today = datetime.datetime.today()
         # assert result[0][0] == today.date()
-        assert  True
-
+        assert True
 
     def test_mysql2(self):
 
@@ -54,7 +53,6 @@ class TestCase:
 
     def test_oracle(self):
         assert True
-
 
     def test_db2(self):
 
