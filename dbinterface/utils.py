@@ -4,9 +4,7 @@ import re
 def is_unsafe_sql(sql) -> bool:
     if sql.replace(" ", "") == "":
         return False
-    result = re.findall(
-        r"--|;|#|current|delete|drop|update|truncate|/\*|\*/", sql.lower()
-    )
+    result = re.findall(r"--|;|#|delete|drop|update|truncate|/\*|\*/", sql.lower())
     if result:
         return True
     return False

@@ -3,9 +3,10 @@
 import ibm_db_dbi
 import ibm_db
 from .database_interface import DataBaseInterface
+from .mixins import ExportMixin
 
 
-class Db2Client(DataBaseInterface):
+class Db2Client(ExportMixin, DataBaseInterface):
     def init(self, host, port, user, pwd, database, **kwargs):
 
         self.database = database
@@ -40,15 +41,22 @@ class Db2Client(DataBaseInterface):
         return ibm_db.active(self.connection)
 
     def read(self, sql, params=()):
-        # print(sql)
-        stmt = ibm_db.prepare(self.connection, sql)
-        for index, param in enumerate(params):
-            ibm_db.bind_param(stmt, index + 1, param)
-        ibm_db.execute(stmt)
-        row = ibm_db.fetch_tuple(stmt)
+
+        cur = self.dbi_connection.cursor()
+        cur.execute(sql, params)
+        row = cur.fetchone()
         while row:
-            yield (row)
-            row = ibm_db.fetch_tuple(stmt)
+            yield row
+            row = cur.fetchone()
+        cur.close()
+        # stmt = ibm_db.prepare(self.connection, sql)
+        # for index, param in enumerate(params):
+        #     ibm_db.bind_param(stmt, index + 1, param)
+        # ibm_db.execute(stmt)
+        # row = ibm_db.fetch_tuple(stmt)
+        # while row:
+        #     yield (row)
+        #     row = ibm_db.fetch_tuple(stmt)
 
     # def fetch(self, sql, params=None):
     #     cur = self.dbi_connection.cursor()
@@ -86,20 +94,18 @@ class Db2Client(DataBaseInterface):
         stmt = ibm_db.prepare(self.connection, sql)
         for index, param in enumerate(params):
             ibm_db.bind_param(stmt, index + 1, param)
-        ibm_db.execute(stmt)
+        return ibm_db.execute(stmt)
 
-    def write_many(self, sql, values):
+    def write_many(self, sql, params):
         """
         sql_insert = "insert in tab values(?,?)"
         values =(()()())
-
         """
         stmt = ibm_db.prepare(self.connection, sql)
-        ibm_db.execute_many(stmt, values)
-        row_count = ibm_db.num_rows(stmt)
-        rc = ibm_db.commit(self.connection)
-        # print(f"inserted {row_count} rows")
-        # print(ibm_db.stmt_errormsg())
+        rows_affected = ibm_db.execute_many(stmt, params)
+        # row_count = ibm_db.num_rows(stmt)
+        # rc = ibm_db.commit(self.connection)
+        return rows_affected
 
     # def get_table_info(self, schema, tabname):
     #     """
@@ -173,35 +179,23 @@ class Db2Client(DataBaseInterface):
     #     # print(ids)
     #     return tables_info, cols, pks, fks, ids
 
-    def get_tables(self, schema_name="EDW"):
+    def get_tables(self, schema_name = None):
         """
-        'TABLE_SCHEM': 'SYSCAT', 'TABLE_NAME': 'VARIABLEAUTH', 'TABLE_TYPE': 'VIEW', 'REMARKS': None
+        获取某个数据库表的表名列表
+        返回数据格式为 list[dict] -> [{'schema','name','type','remarks'}]
         """
-        table_type = ""
         tables_info = self.dbi_connection.tables(schema_name=schema_name)
-        ###print(tables_info)
-        tabs = []
+        result = []
         for table in tables_info:
-            if table_type == "":
-                tabs.append(
-                    [
-                        table["TABLE_SCHEM"],
-                        table["TABLE_NAME"],
-                        table["TABLE_TYPE"],
-                        table["REMARKS"],
-                    ]
-                )
-            else:
-                if table["TABLE_TYPE"] == table_type.upper():
-                    tabs.append(
-                        [
-                            table["TABLE_SCHEM"],
-                            table["TABLE_NAME"],
-                            table["TABLE_TYPE"],
-                            table["REMARKS"],
-                        ]
-                    )
-        return tabs
+            result.append(
+                {
+                    'schema':table["TABLE_SCHEM"],
+                    'name': table["TABLE_NAME"],
+                    'type': table["TABLE_TYPE"],
+                    'remarks': table["REMARKS"]
+                }
+            )
+        return result
 
     # def get_table_names(self, schema_name=None):
     #     """
