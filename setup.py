@@ -40,7 +40,7 @@ SOFTWARE.
 # Read the version without importing the package
 # (and thus attempting to import packages it depends on that may not be
 # installed yet)
-version = "0.3"
+version = "0.4"
 
 NAME = "dbinterface"
 VERSION = version
