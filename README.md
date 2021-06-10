@@ -9,6 +9,8 @@ Python 连接数据库，执行读写操作的通用接口，采用简单工厂�
 ## 安装
 
 ```sh
+git clone  https://github.com/somenzz/dbinterface.git 
+pip install -r requirements.txt
 pip install dbinterface
 ```
 

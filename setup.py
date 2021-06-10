@@ -40,7 +40,7 @@ SOFTWARE.
 # Read the version without importing the package
 # (and thus attempting to import packages it depends on that may not be
 # installed yet)
-version = "0.4"
+version = "0.5"
 
 NAME = "dbinterface"
 VERSION = version
@@ -51,7 +51,7 @@ AUTHOR_EMAIL = "somenzz@163.com"
 URL = "https://github.com/somenzz/dbinterface"
 PACKAGES = find_packages(exclude=["tests", "tests.*"])
 
-INSTALL_REQUIRES = ["pymysql", "psycopg2-binary", "ibm-db"]
+INSTALL_REQUIRES = []
 TEST_SUITE = "tests"
 TESTS_REQUIRE = []
 
