@@ -51,7 +51,7 @@ AUTHOR_EMAIL = "somenzz@163.com"
 URL = "https://github.com/somenzz/dbinterface"
 PACKAGES = find_packages(exclude=["tests", "tests.*"])
 
-INSTALL_REQUIRES = ["pymysql", "psycopg2-binary", "ibm-db==3.0.4"]
+INSTALL_REQUIRES = ["pymysql", "psycopg2-binary", "ibm-db"]
 TEST_SUITE = "tests"
 TESTS_REQUIRE = []
 
@@ -61,8 +61,7 @@ CLASSIFIERS = [
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
     "Programming Language :: Python",
-    "Programming Language :: Python :: 2.7",
-    "Programming Language :: Python :: 3.6",
+    "Programming Language :: Python :: 3"
     "Topic :: Software Development",
     "Topic :: Software Development :: Libraries :: Python Modules",
     "Topic :: Utilities",
@@ -77,7 +76,7 @@ params = {
     "author": AUTHOR,
     "author_email": AUTHOR_EMAIL,
     "url": URL,
-    "license": LICENSE,
+    "license": "MIT",
     "packages": PACKAGES,
     "install_requires": INSTALL_REQUIRES,
     "tests_require": TESTS_REQUIRE,

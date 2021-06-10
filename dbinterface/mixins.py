@@ -19,7 +19,7 @@ class ExportMixin:
 
         row_counter = 0
         with open(
-            file_path.encode(encoding),
+            file_path,
             mode="w",
             encoding=encoding,
             errors="ignore",
@@ -66,7 +66,7 @@ class ExportMixin:
 
         row_counter = 0
         with open(
-            file_path.encode(encoding),
+            file_path,
             mode="w",
             encoding=encoding,
             errors="ignore",

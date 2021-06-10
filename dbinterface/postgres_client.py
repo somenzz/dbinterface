@@ -131,7 +131,7 @@ class PostgresClient(ExportMixin, DataBaseInterface):
     def copy_to_file(self, query, file_name, encoding="utf8", delimiter="\x02"):
 
         if delimiter.lower().startswith("0x"):
-            delimeter = chr(int(delimiter, 16))
+            delimiter = chr(int(delimiter, 16))
 
         copy_sql = f"""COPY (
 {query}
