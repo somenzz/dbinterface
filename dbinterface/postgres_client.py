@@ -97,22 +97,14 @@ class PostgresClient(ExportMixin, DataBaseInterface):
 
 
     def read(self, sql: str, params: tuple = ()) -> tuple:
-        cur = self.connection.cursor(f"cusor{self.cursor_count}")
-        self.cursor_count += 1
-        cur.execute(sql, params)
-        return cur
-
-    # def fetch(self, sql: str, params: tuple = ()) -> tuple:
-    #     with self.connection.cursor(f"cusor{self.cursor_count}") as cur:
-    #         self.cursor_count += 1
-    #         cur.execute(sql, params)
-    #         row = cur.fetchone()
-    #         while row:
-    #             yield row
-    #             row = cur.fetchone()
+        with self.connection.cursor(f"cursor{self.cursor_count}") as cur:
+            self.cursor_count += 1
+            cur.execute(sql, params)
+            for row in cur:
+                yield row
 
     def read_map(self, sql: str, params: tuple = ()) -> dict:
-        cur = self.connection.cursor(cursor_factory=DictCursor)
+        cur = self.connection.cursor(f"cursor{self.cursor_count}", cursor_factory=DictCursor)
         cur.execute(sql, params)
         for row in cur:
             yield dict(row)
@@ -136,11 +128,6 @@ class PostgresClient(ExportMixin, DataBaseInterface):
         copy_sql = f"""COPY (
 {query}
 ) TO '{file_name}' WITH(encoding '{encoding}', delimiter '{delimiter}', null '', format 'text')"""
-        print(
-            f"""copy_sql =======begin========
-{copy_sql}
-copy_sql =======end========"""
-        )
         with self.connection.cursor() as cur:
             cur.copy_expert(copy_sql, sys.stdout)
             return cur.rowcount
