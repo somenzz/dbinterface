@@ -141,7 +141,7 @@ for table in table_list:
 
 - 然后修改 dbinterface 目录下 database_client.py 文件，修改 DataBaseClientFactory 类，添加对应的数据库类型。
   
-- tests 目录内添加单元测试，执行 pytess 测试
+- tests 目录内添加单元测试，执行 pytest 测试
 
 
 ## 联系我
